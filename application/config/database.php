@@ -46,63 +46,49 @@
 */
 
 if($_SERVER['HTTP_HOST'] == "localhost")
-	$active_group = 'default';
+{
+	$active_group = 'localhost';
+
+	$db['localhost']['hostname'] = 'localhost';
+	$db['localhost']['username'] = 'root';
+	$db['localhost']['password'] = 'root';
+	$db['localhost']['database'] = 'geolocation';
+	$db['localhost']['dbdriver'] = 'mysql';
+	$db['localhost']['dbprefix'] = '';
+	$db['localhost']['pconnect'] = TRUE;
+	$db['localhost']['db_debug'] = TRUE;
+	$db['localhost']['cache_on'] = FALSE;
+	$db['localhost']['cachedir'] = '';
+	$db['localhost']['char_set'] = 'utf8';
+	$db['localhost']['dbcollat'] = 'utf8_general_ci';
+	$db['localhost']['swap_pre'] = '';
+	$db['localhost']['autoinit'] = TRUE;
+	$db['localhost']['stricton'] = FALSE;
+}
+
 else
 {
 	$heroku_db = parse_url(getenv("CLEARDB_DATABASE_URL"));
 	$active_group = 'heroku';
+
+	$db['heroku']['hostname'] = $heroku_db["host"];
+	$db['heroku']['username'] = $heroku_db["user"];
+	$db['heroku']['password'] = $heroku_db["pass"];
+	$db['heroku']['database'] = substr($heroku_db["path"],1);;
+	$db['heroku']['dbdriver'] = 'mysql';
+	$db['heroku']['dbprefix'] = '';
+	$db['heroku']['pconnect'] = TRUE;
+	$db['heroku']['db_debug'] = TRUE;
+	$db['heroku']['cache_on'] = FALSE;
+	$db['heroku']['cachedir'] = '';
+	$db['heroku']['char_set'] = 'utf8';
+	$db['heroku']['dbcollat'] = 'utf8_general_ci';
+	$db['heroku']['swap_pre'] = '';
+	$db['heroku']['autoinit'] = TRUE;
+	$db['heroku']['stricton'] = FALSE;
 }
 
 $active_record = TRUE;
-
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = 'root';
-$db['default']['database'] = 'geolocation';
-$db['default']['dbdriver'] = 'mysql';
-$db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_general_ci';
-$db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
-
-$db['heroku']['hostname'] = $heroku_db["host"];
-$db['heroku']['username'] = $heroku_db["user"];
-$db['heroku']['password'] = $heroku_db["pass"];
-$db['heroku']['database'] = substr($heroku_db["path"],1);;
-$db['heroku']['dbdriver'] = 'mysql';
-$db['heroku']['dbprefix'] = '';
-$db['heroku']['pconnect'] = TRUE;
-$db['heroku']['db_debug'] = TRUE;
-$db['heroku']['cache_on'] = FALSE;
-$db['heroku']['cachedir'] = '';
-$db['heroku']['char_set'] = 'utf8';
-$db['heroku']['dbcollat'] = 'utf8_general_ci';
-$db['heroku']['swap_pre'] = '';
-$db['heroku']['autoinit'] = TRUE;
-$db['heroku']['stricton'] = FALSE;
-
-$db['localhost']['hostname'] = 'localhost';
-$db['localhost']['username'] = 'root';
-$db['localhost']['password'] = 'root';
-$db['localhost']['database'] = 'geolocation';
-$db['localhost']['dbdriver'] = 'mysql';
-$db['localhost']['dbprefix'] = '';
-$db['localhost']['pconnect'] = TRUE;
-$db['localhost']['db_debug'] = TRUE;
-$db['localhost']['cache_on'] = FALSE;
-$db['localhost']['cachedir'] = '';
-$db['localhost']['char_set'] = 'utf8';
-$db['localhost']['dbcollat'] = 'utf8_general_ci';
-$db['localhost']['swap_pre'] = '';
-$db['localhost']['autoinit'] = TRUE;
-$db['localhost']['stricton'] = FALSE;
-
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
