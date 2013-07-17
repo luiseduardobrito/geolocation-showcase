@@ -13,10 +13,6 @@ var Frontpage = function() {
 
 			plot: function(locations) {
 
-				// ensure is an array
-				if(typeof locations != typeof [])
-					locations = [locations];
-
 				var i, marker;
 
 				// loop
@@ -37,6 +33,29 @@ var Frontpage = function() {
 
 	      		// manage infowindows
 	      		var infowindow = new google.maps.InfoWindow();
+			}
+		},
+
+		users: {
+
+			plot: function(origin, distance) {
+
+				$.getJSON("/index.php/user", function(data) {
+
+					var users = [];
+
+					for(var i = 0; i < data.length; i++)
+						users.push([
+							data[i].userName + "(" + data[i].city + ")", 
+							parseFloat(data[i].latitude), 
+							parseFloat(data[i].longitude),
+							i + 1
+						]);
+
+					console.log(users);
+					frontpage.marker.plot(users);
+				});
+
 			}
 		}
 	};
@@ -59,4 +78,5 @@ var frontpage = new Frontpage();
 
 $(document).ready(function() {
 	frontpage.init();
+	frontpage.users.plot();
 });

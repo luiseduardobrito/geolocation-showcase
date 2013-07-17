@@ -11,7 +11,7 @@ class User_model extends CI_Model {
 		return $this->get(array());
 	}
 
-	public getNearLocation() {
+	public function getNearLocation() {
 
 		$q = $this->db->query("
 
@@ -51,6 +51,7 @@ class User_model extends CI_Model {
 	{
 		$this->db->select("*");
 		$this->db->from("user");
+		$this->db->join("city_location", "user.cityId = city_location.cityId");
 		$this->db->where($rest);
 
 		$q = $this->db->get();
