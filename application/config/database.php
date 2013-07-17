@@ -45,7 +45,11 @@
 | the active record class
 */
 
-$active_group = 'default';
+if($_SERVER['HTTP_HOST'] == "localhost")
+	$active_group = 'default';
+else
+	$active_group = 'heroku';
+
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
@@ -63,6 +67,39 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
+
+$db['heroku']['hostname'] = 'localhost';
+$db['heroku']['username'] = 'b2fe9f3b5687ea';
+$db['heroku']['password'] = '9c25e1a4';
+$db['heroku']['database'] = 'geolocation';
+$db['heroku']['dbdriver'] = 'mysql';
+$db['heroku']['dbprefix'] = '';
+$db['heroku']['pconnect'] = TRUE;
+$db['heroku']['db_debug'] = TRUE;
+$db['heroku']['cache_on'] = FALSE;
+$db['heroku']['cachedir'] = '';
+$db['heroku']['char_set'] = 'utf8';
+$db['heroku']['dbcollat'] = 'utf8_general_ci';
+$db['heroku']['swap_pre'] = '';
+$db['heroku']['autoinit'] = TRUE;
+$db['heroku']['stricton'] = FALSE;
+
+$db['localhost']['hostname'] = 'localhost';
+$db['localhost']['username'] = 'root';
+$db['localhost']['password'] = 'root';
+$db['localhost']['database'] = 'geolocation';
+$db['localhost']['dbdriver'] = 'mysql';
+$db['localhost']['dbprefix'] = '';
+$db['localhost']['pconnect'] = TRUE;
+$db['localhost']['db_debug'] = TRUE;
+$db['localhost']['cache_on'] = FALSE;
+$db['localhost']['cachedir'] = '';
+$db['localhost']['char_set'] = 'utf8';
+$db['localhost']['dbcollat'] = 'utf8_general_ci';
+$db['localhost']['swap_pre'] = '';
+$db['localhost']['autoinit'] = TRUE;
+$db['localhost']['stricton'] = FALSE;
+
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
