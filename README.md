@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## Introduction
 
 CodeIgniter Bootstrap kick starts the development process of the web development process by including Twitter Bootstrap into CodeIgniter. It also includes certain libraries such as AWS and Facebook in-case you are developing applications requiring those SDKs. So stop writing the same code over again and start working on your idea.
@@ -28,3 +29,9 @@ MIT with [CodeIgniter Amendments](http://codeigniter.com/user_guide/license.html
 ## Other
 
 If you're looking for a LESS and/or JS compilier, try out another flavor like [CodeIgniter Sunrise](https://github.com/sjlu/CodeIgniter-Sunrise).
+=======
+geolocation-showcase
+====================
+
+Geolocation MySQL showcase
+>>>>>>> a84db0efe425e8cdcadfaa9aad13e4664b27465b
