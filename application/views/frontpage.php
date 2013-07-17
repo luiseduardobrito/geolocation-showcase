@@ -36,8 +36,9 @@
 		  <a class="brand" href="#">Geolocation</a>
 		  <div class="nav-collapse collapse">
 			<ul class="nav">
-			  <li class="active"><a href="#">Buscar</a></li>
-			  <li><a href="#about">Inserir</a></li>
+			  <li class="active"><a href="#">Map</a></li>
+			  <li><a href="#search">Search</a></li>
+			  <li><a href="#about">Insert</a></li>
 			</ul>
 		  </div><!--/.nav-collapse -->
 		</div>

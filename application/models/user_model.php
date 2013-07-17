@@ -11,7 +11,7 @@ class User_model extends CI_Model {
 		return $this->get(array());
 	}
 
-	public function getNearLocation() {
+	public function getNearLocation($lat, $lng, $d) {
 
 		$q = $this->db->query("
 

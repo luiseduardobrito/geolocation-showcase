@@ -52,7 +52,6 @@ var Frontpage = function() {
 							i + 1
 						]);
 
-					console.log(users);
 					frontpage.marker.plot(users);
 				});
 
@@ -64,7 +63,7 @@ var Frontpage = function() {
 
 		console.log("Initializing map...");
 		exports.map = new google.maps.Map(document.getElementById("map-canvas"), {
-			zoom: 6,
+			zoom: 9,
 			center: new google.maps.LatLng(-22.9000, -47.0833),
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		});
@@ -78,5 +77,7 @@ var frontpage = new Frontpage();
 
 $(document).ready(function() {
 	frontpage.init();
+	
+	console.log("Ploting all users...");
 	frontpage.users.plot();
 });
