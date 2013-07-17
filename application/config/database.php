@@ -51,8 +51,6 @@ else
 {
 	$heroku_db = parse_url(getenv("CLEARDB_DATABASE_URL"));
 	$active_group = 'heroku';
-	print_r($heroku_db);
-	die();
 }
 
 $active_record = TRUE;
