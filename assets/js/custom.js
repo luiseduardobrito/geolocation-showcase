@@ -65,9 +65,11 @@ var Frontpage = function() {
 				frontpage.mapOverlays.push(marker);
 			},
 
-			draggableCircle: function(radius) {
+			draggableCircle: function(radius, center_changed, radius_changed) {
 
 				radius = radius || 15000;
+				center_changed = center_changed || function(){};
+				radius_changed = radius_changed || function(){};
 
 				var circleOptions = {
 					strokeColor: '#FF0000',
@@ -79,7 +81,10 @@ var Frontpage = function() {
 					center: frontpage.map.getCenter(),
 					radius: radius,
 					draggable: true,
-					editable: true
+					editable: true,
+
+					center_changed: center_changed,
+					radius_changed: radius_changed
 				};
 
 				var circle = new google.maps.Circle(circleOptions);
@@ -106,6 +111,30 @@ var Frontpage = function() {
 					frontpage.marker.plot(users);
 				});
 
+			},
+
+			filter: function(center, radius) {
+
+				$.getJSON("/index.php/user/getNearLocation", {
+
+					lat: center.jb, 
+					lng: center.kb, 
+					radius: radius
+
+				}, function(data) {
+
+					var users = [];
+
+					for(var i = 0; i < data.length; i++)
+						users.push([
+							data[i].userName + " (" + data[i].city + ")", 
+							parseFloat(data[i].latitude), 
+							parseFloat(data[i].longitude),
+							i + 1
+						]);
+
+					frontpage.marker.plot(users);
+				});
 			}
 		},
 	};
@@ -121,7 +150,26 @@ var Frontpage = function() {
 		search: function() {
 
 			console.log("Ploting search circle...");
-			frontpage.marker.draggableCircle();
+			frontpage.marker.draggableCircle(15000, 
+
+				// center changed
+				function(){
+
+					frontpage.users.filter(
+						frontpage.mapOverlays[0].getCenter(),
+						frontpage.mapOverlays[0].getRadius()
+					);
+				},
+
+				// radius changed
+				function(){
+
+					frontpage.users.filter(
+						frontpage.mapOverlays[0].getCenter(),
+						frontpage.mapOverlays[0].getRadius()
+					);
+				}
+			);
 		},
 
 		go: function(url) {

@@ -47,6 +47,7 @@
 	<div class="container">
 
 	  <div id="map-canvas"></div>
+	  <div id="search-filter" style="display: none"></div>
 
 	</div> <!-- /container -->
 

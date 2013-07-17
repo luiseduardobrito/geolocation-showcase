@@ -8,6 +8,17 @@ class User extends Main_Controller {
 		print(json_encode($this->user_model->getAll()));
 		return;
 	}
+
+	public function getNearLocation()
+	{
+		$this->load->model("user_model");
+		print(json_encode($this->user_model->getNearLocation(
+			$_GET["lat"],
+			$_GET["lng"],
+			$_GET["radius"]
+		)));
+		return;
+	}
 }
 
 /* End of file user.php */

@@ -13,38 +13,15 @@ class User_model extends CI_Model {
 
 	public function getNearLocation($lat, $lng, $d) {
 
-		$q = $this->db->query("
+		$sql = " select result.cityId, city, user.userId, user.userName, result.distance FROM ( select cityId, city, ( 6371 * acos( cos( radians(".$lat.") ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(".$lng.") ) + sin( radians(".$lat.") ) * sin( radians( latitude ) ) ) ) AS distance FROM city_location HAVING distance < ".$d." ORDER BY distance ) AS result INNER JOIN user ON user.cityId=result.cityId";
 
-			SET 
-			-- target
-			@lat = ".$lat.", 
-			@lng = ".$lng.",
-			-- range (Km)
-			@raio = ".$d.";
+		$q = $this->db->query($sql);
 
-			select result.cityId, city, user.userId, user.userName, result.distance FROM 
-			(
-				select  cityId, city,
-				( 
-					-- 3959 result as miles
-					-- 6371 result as Km
-					6371 
-					* acos( cos( radians(@lat) ) 
-					* cos( radians( latitude ) ) 
-					* cos( radians( longitude ) 
-					- radians(@lng) ) 
-					+ sin( radians(@lat) ) 
-					* sin( radians( latitude ) ) ) 
-				)
-				AS distance 
-				FROM city_location
-				HAVING distance < @raio
-				ORDER BY distance
-			) 
-			AS result
-			INNER JOIN user
-			ON user.cityId=result.cityId;
-		");
+		if(!$q || !$q->num_rows())
+			return array();
+
+		else
+			return $q->result_array();
 	}
 
 	private function get($rest)
