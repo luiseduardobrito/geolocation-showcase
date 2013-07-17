@@ -48,6 +48,7 @@
 if($_SERVER['HTTP_HOST'] == "localhost")
 	$active_group = 'default';
 else
+	$heroku_db = parse_url(getenv("CLEARDB_DATABASE_URL"));
 	$active_group = 'heroku';
 
 $active_record = TRUE;
@@ -68,10 +69,10 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
-$db['heroku']['hostname'] = 'localhost';
-$db['heroku']['username'] = 'b2fe9f3b5687ea';
-$db['heroku']['password'] = '9c25e1a4';
-$db['heroku']['database'] = 'geolocation';
+$db['heroku']['hostname'] = $heroku_db["host"];
+$db['heroku']['username'] = $heroku_db["user"];
+$db['heroku']['password'] = $heroku_db["pass"];
+$db['heroku']['database'] = substr($heroku_db["path"],1);;
 $db['heroku']['dbdriver'] = 'mysql';
 $db['heroku']['dbprefix'] = '';
 $db['heroku']['pconnect'] = TRUE;
