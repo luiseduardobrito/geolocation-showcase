@@ -8,6 +8,16 @@ var Frontpage = function() {
 	var exports = {
 
 		map: null,
+		mapOverlays: [],
+
+		clearMapOverlays: function() {
+
+  			for (var i = 0; i < frontpage.mapOverlays.length; i++ ) {
+    			frontpage.mapOverlays[i].setMap(null);
+  			}
+
+  			frontpage.mapOverlays = [];
+		},
 
 		marker: {
 
@@ -29,10 +39,51 @@ var Frontpage = function() {
           					infowindow.open(frontpage.map, marker);
         				}
       				})(marker, i));
-	      		}
 
-	      		// manage infowindows
-	      		var infowindow = new google.maps.InfoWindow();
+      				// create info window
+      				var infowindow = new google.maps.InfoWindow();
+
+      				// add to array
+	      			frontpage.mapOverlays.push(marker);
+	      		}
+			},
+
+			draggable : function(dragend, dragstart) {
+
+				dragend = dragend || function(){};
+				dragstart = dragstart || function(){};
+
+				marker = new google.maps.Marker({
+					map:frontpage.map,
+					draggable:true,
+					animation: google.maps.Animation.DROP,
+					position: frontpage.map.getCenter()
+				});
+  				google.maps.event.addListener(marker, 'click', toggleBounce);
+
+				frontend.map.addOverlay(marker);
+				frontpage.mapOverlays.push(marker);
+			},
+
+			draggableCircle: function(radius) {
+
+				radius = radius || 15000;
+
+				var circleOptions = {
+					strokeColor: '#FF0000',
+					strokeOpacity: 0.8,
+					strokeWeight: 2,
+					fillColor: '#FF0000',
+					fillOpacity: 0.35,
+					map: frontpage.map,
+					center: frontpage.map.getCenter(),
+					radius: radius,
+					draggable: true,
+					editable: true
+				};
+
+				var circle = new google.maps.Circle(circleOptions);
+				frontpage.mapOverlays.push(circle);
 			}
 		},
 
@@ -46,7 +97,7 @@ var Frontpage = function() {
 
 					for(var i = 0; i < data.length; i++)
 						users.push([
-							data[i].userName + "(" + data[i].city + ")", 
+							data[i].userName + " (" + data[i].city + ")", 
 							parseFloat(data[i].latitude), 
 							parseFloat(data[i].longitude),
 							i + 1
@@ -56,8 +107,49 @@ var Frontpage = function() {
 				});
 
 			}
-		}
+		},
 	};
+
+	exports.pages = {
+
+		map: function() {
+
+			console.log("Ploting all users...");
+			frontpage.users.plot();
+		},
+
+		search: function() {
+
+			console.log("Ploting search circle...");
+			frontpage.marker.draggableCircle();
+		},
+
+		go: function(url) {
+
+			// clear map
+			frontpage.clearMapOverlays();
+
+			$("li[class='active']").removeClass("active");
+
+			if(url == "#" || url == "")
+				$("#map-li").addClass("active");
+
+			else
+				$(url+"-li").addClass("active");
+
+			// get page methods
+			switch(url) {
+
+				case "#search":
+					frontpage.pages.search();
+					break;
+
+				default:
+					frontpage.pages.map();
+					break;
+			}
+		}
+	}
 
 	function init()	{		
 
@@ -66,6 +158,12 @@ var Frontpage = function() {
 			zoom: 9,
 			center: new google.maps.LatLng(-22.9000, -47.0833),
 			mapTypeId: google.maps.MapTypeId.ROADMAP
+		});
+
+		console.log("Preparing pages callbacks...");
+
+		$(window).on('hashchange', function() {
+  			frontpage.pages.go(window.location.hash);
 		});
 	}
 	exports.init = init;
@@ -76,8 +174,9 @@ var Frontpage = function() {
 var frontpage = new Frontpage();
 
 $(document).ready(function() {
+
 	frontpage.init();
-	
-	console.log("Ploting all users...");
-	frontpage.users.plot();
+
+	// open initial state
+	frontpage.pages.go(window.location.hash);
 });
