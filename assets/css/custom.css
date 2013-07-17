@@ -18,3 +18,8 @@ body {
 	margin-top: 40px;
 	margin-bottom: 40px;
 }
+
+/** FIX for Bootstrap and Google Maps Info window styes problem **/
+img[src*="gstatic.com/"], img[src*="googleapis.com/"] {
+	max-width: none;
+}
