@@ -8,7 +8,6 @@
 	<!-- Le styles -->
 	<link href="../assets/css/bootstrap.css" rel="stylesheet">
 	<link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
-	<link href="../assets/css/custom.css" rel="stylesheet">
 
 	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
@@ -47,7 +46,15 @@
 	<div class="container">
 
 	  <div id="map-canvas"></div>
-	  <div id="search-filter" style="display: none"></div>
+	  <div id="search-filter" style="display: none">
+	  	
+	  	Latitude: <span id="filter-latitude"></span><br />
+	  	Longitude: <span id="filter-longitude"></span><br />
+	  	Radius: <span id="filter-radius"></span><br />
+
+	  	<button id="filter-apply" value="Search">Search</button>
+
+	  </div>
 
 	</div> <!-- /container -->
 

@@ -7,7 +7,9 @@ body {
 }
 
 #map-canvas {
+
 	position: absolute;
+	z-index: 5;
 
 	width: 100%;
 	height: 100%;
@@ -17,6 +19,22 @@ body {
 
 	margin-top: 40px;
 	margin-bottom: 40px;
+}
+
+#search-filter {
+
+	position: absolute;
+	z-index: 10;
+
+	top: 20%;
+	left: 70%;
+
+	min-width: 200px;
+	min-height: 150px;
+	padding: 25px;
+
+	background-color: #424242;
+	color: #FFF;
 }
 
 /** FIX for Bootstrap and Google Maps Info window styes problem **/

@@ -10,13 +10,25 @@ var Frontpage = function() {
 		map: null,
 		mapOverlays: [],
 
-		clearMapOverlays: function() {
+		clearMapOverlays: function(circle) {
 
-  			for (var i = 0; i < frontpage.mapOverlays.length; i++ ) {
-    			frontpage.mapOverlays[i].setMap(null);
-  			}
+			if(circle)
+			{
+				for (var i = 0; i < frontpage.mapOverlays.length; i++ ) {
+  					var o = frontpage.mapOverlays.pop();
+    				o.setMap(null);
+    			}
+			}
 
-  			frontpage.mapOverlays = [];
+			else
+			{
+				for (var i = 0; i < frontpage.mapOverlays.length; i++ ) {
+					if(typeof frontpage.mapOverlays[i].getRadius != 'function') {
+  						var o = frontpage.mapOverlays.pop();
+    					o.setMap(null);
+    				}
+    			}
+			}
 		},
 
 		marker: {
@@ -117,21 +129,25 @@ var Frontpage = function() {
 
 				$.getJSON("/index.php/user/getNearLocation", {
 
-					lat: center.jb, 
-					lng: center.kb, 
+					lat: center.lat(), 
+					lng: center.lng(), 
 					radius: radius
 
 				}, function(data) {
 
 					var users = [];
 
-					for(var i = 0; i < data.length; i++)
+					for(var i = 0; i < data.length; i++) {
+
+						if(data[i].distance > radius) continue;
+
 						users.push([
 							data[i].userName + " (" + data[i].city + ")", 
 							parseFloat(data[i].latitude), 
 							parseFloat(data[i].longitude),
 							i + 1
 						]);
+					}
 
 					frontpage.marker.plot(users);
 				});
@@ -155,27 +171,46 @@ var Frontpage = function() {
 				// center changed
 				function(){
 
-					frontpage.users.filter(
-						frontpage.mapOverlays[0].getCenter(),
-						frontpage.mapOverlays[0].getRadius()
-					);
+					$("#filter-latitude").html(frontpage.mapOverlays[0].getCenter().lat());
+					$("#filter-longitude").html(frontpage.mapOverlays[0].getCenter().lng());
+					$("#filter-radius").html(frontpage.mapOverlays[0].getRadius());
 				},
 
 				// radius changed
 				function(){
 
-					frontpage.users.filter(
-						frontpage.mapOverlays[0].getCenter(),
-						frontpage.mapOverlays[0].getRadius()
-					);
+					$("#filter-latitude").html(frontpage.mapOverlays[0].getCenter().lat());
+					$("#filter-longitude").html(frontpage.mapOverlays[0].getCenter().lng());
+					$("#filter-radius").html(frontpage.mapOverlays[0].getRadius());
 				}
 			);
+
+			// show circle options
+			$("#filter-latitude").html(frontpage.mapOverlays[0].getCenter().lat());
+			$("#filter-longitude").html(frontpage.mapOverlays[0].getCenter().lng());
+			$("#filter-radius").html(frontpage.mapOverlays[0].getRadius());
+
+			// bind search click
+			$("#filter-apply").on("click", function()
+			{
+				frontpage.clearMapOverlays();
+
+				frontpage.users.filter(
+					frontpage.mapOverlays[0].getCenter(), 
+					frontpage.mapOverlays[0].getRadius()
+				);
+			});
+
+			// show filter div
+			$("#search-filter").show();
 		},
 
 		go: function(url) {
 
 			// clear map
-			frontpage.clearMapOverlays();
+			frontpage.clearMapOverlays(true);
+
+			$("#search-filter").hide();
 
 			$("li[class='active']").removeClass("active");
 
