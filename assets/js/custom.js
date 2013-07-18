@@ -12,22 +12,28 @@ var Frontpage = function() {
 
 		clearMapOverlays: function(circle) {
 
+			var i = 0;
+			var length = frontpage.mapOverlays.length;
+
 			if(circle)
 			{
-				for (var i = 0; i < frontpage.mapOverlays.length; i++ ) {
-  					var o = frontpage.mapOverlays.pop();
-    				o.setMap(null);
+				for (i = 0; i < length; i++ ) {
+					frontpage.mapOverlays[i].setMap(null);
     			}
+
+    			frontpage.mapOverlays = [];
 			}
 
 			else
 			{
-				for (var i = 0; i < frontpage.mapOverlays.length; i++ ) {
+
+				for (i = 0; i < length; i++ ) {
 					if(typeof frontpage.mapOverlays[i].getRadius != 'function') {
-  						var o = frontpage.mapOverlays.pop();
-    					o.setMap(null);
+    					frontpage.mapOverlays[i].setMap(null);
     				}
     			}
+
+    			frontpage.mapOverlays = [frontpage.mapOverlays[0]];
 			}
 		},
 
